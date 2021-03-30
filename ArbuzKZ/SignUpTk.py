@@ -1,4 +1,5 @@
 from tkinter import *
+import tkinter.font as tkFont
 
 def signUp(users):
     def registration():
@@ -112,21 +113,26 @@ def logIn(users):
 
     window = Tk()
     window.geometry("500x500")
+    lblTitle = Label(window, text="Авторизация", font=("San Serif", 16))
+    lblTitle.place(x=175, y = 0)
 
-    lemail = Label(window, text="email: ")
-    lemail.grid(row="0", column="0")
-    iemail = Entry(window)
-    iemail.grid(row="0", column="1")
+    lemail = Label(window, text="email: ", font=("San Serif", 12))
+    lemail.place(x=120, y = 30)
+    iemail = Entry(window, font="30px")
+    iemail.place(x = 200, y = 30)
 
-    lpassword = Label(window, text="password: ")
-    lpassword.grid(row="1", column="0")
-    ipassword = Entry(window)
-    ipassword.grid(row="1", column="1")
+    lpassword = Label(window, text="password: ", font=("San Serif", 12))
+    lpassword.place(x=110, y=65)
+    ipassword = Entry(window,font="30px")
+    ipassword.place(x=200, y=65)
 
-    btn = Button(window, command = login, text="Login")
-    btn.grid(row="2", column="2")
+    btnLogin = Button(window, command = login, text="Login", font=("San Serif", 12), bg="#68c6fc", fg="WHITE")
+    btnLogin.place(x = 140, y=100)
 
-    err_label = Label(window, text="")
-    err_label.grid(row="2", column="1")
+    btnSignUp = Button(window, text="Sign Up", font=("San Serif", 12), bg="#52fa7f")
+    btnSignUp.place(x=270, y=100)
+
+    err_label = Label(window, text="", font=("San Serif", 12))
+    err_label.place(x=180, y = 150 )
     window.mainloop()
 

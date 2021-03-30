@@ -38,6 +38,13 @@ class User():
         cursor.execute(f"DELETE FROM user WHERE id == {id}")
         print(f"User with id {id} deleted!")
 
+    def login(self, email, password):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM user WHERE email = '{email}' and password = '{password}'")
+        data = cursor.fetchall()
+        return data
+
+
 class Category():
     def __init__(self, connection):
         self.connection = connection

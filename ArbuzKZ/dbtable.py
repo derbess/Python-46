@@ -108,3 +108,4 @@ class Product():
         cursor.execute("SELECT * FROM product")
         data = cursor.fetchall()
         return data
+

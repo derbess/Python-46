@@ -43,7 +43,7 @@ def productsTk(product, screen):
     baseX = 50
     baseY = 40
 
-    window = Frame(screen, width=1000, height=700)
+    window = Frame(screen, width=1200, height=700)
     window.place(x=0, y=0)
     title = Label(window, text="PRODUCTS", font=("San Serif",18), fg = "#dddddd", bg = "RED")
     title.place(x=300, y=10)
@@ -103,7 +103,7 @@ def categoryTk(category, screen):
     baseX = 50
     baseY = 40
 
-    window = Frame(screen, width=1000, height=700)
+    window = Frame(screen, width=1200, height=700)
     window.place(x=0, y=0)
 
     titleProducts = Label(window, text="PRODUCTS", font=("San Serif",18))
@@ -214,15 +214,27 @@ def productsOfCategoryTk(product, screen):
         line = Canvas(window, width=1000, height=2, bg="BLUE")
         line.place(x=x, y = y+50)
 
+    def openCategories(event):
+        categoryTk(category, screen)
 
     products = product
+    category_id = products[0][4]
     baseX = 50
     baseY = 40
-
-    window = Frame(screen, width=1000, height=700)
+    currentCategory = category.get_category_by_id(category_id)
+    category_name = currentCategory[0][1]
+    window = Frame(screen, width=1200, height=700)
     window.place(x=0, y=0)
-    title = Label(window, text="PRODUCTS", font=("San Serif",18))
-    title.place(x=500, y=10)
+
+
+    title = Label(window, text=f"PRODUCTS of {category_name}", font=("San Serif",18), fg = "#dddddd", bg = "RED")
+    title.place(x=300, y=10)
+
+    titleCategory = Label(window, text="CATEGORIES", font=("San Serif", 18))
+    titleCategory.place(x=700, y=10)
+    titleCategory.bind("<Button-1>", openCategories)
+
+
     thname = Label(window, text="Product name",font=("San Serif",18), fg = "ORANGE")
     thname.place(x = baseX + 100, y = baseY+20 )
 

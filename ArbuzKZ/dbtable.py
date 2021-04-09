@@ -77,6 +77,12 @@ class Category():
         cursor.execute(f"DELETE FROM product WHERE id == {id}")
         print("Deleted")
 
+    def get_category_by_id(self, id):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM category WHERE id = {id}")
+        data = cursor.fetchall()
+        return data
+
 
 class Product():
     def __init__(self, connection):

@@ -1,6 +1,6 @@
 from tkinter import *
 
-def productsTk(product):
+def productsTk(product, screen):
 
     basket = [0]
     def draw_products(x,y, productTuple):
@@ -39,8 +39,8 @@ def productsTk(product):
     baseX = 50
     baseY = 40
 
-    window = Tk()
-    window.geometry("1200x700")
+    window = Frame(screen, width=1000, height=700)
+    window.place(x=0, y=0)
     title = Label(window, text="PRODUCTS", font=("San Serif",18))
     title.place(x=500, y=10)
     thname = Label(window, text="Product name",font=("San Serif",18), fg = "ORANGE")
@@ -64,7 +64,7 @@ def productsTk(product):
     ltp2 = Label(window, text="0",font=("San Serif",18))
     ltp2.place(x=baseX+ 900,y=baseY+20 )
 
-    window.mainloop()
+    # window.mainloop()
 
 
 def profileTk(user):

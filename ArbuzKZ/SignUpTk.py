@@ -1,7 +1,12 @@
 from tkinter import *
+from database_init import product, category, users
 import tkinter.font as tkFont
+from OtherTk import productsTk
 
-def signUp(users):
+def signUp(users, screen):
+
+    window = Frame(screen, width=1200, height=1000)
+    window.place(x=0, y=0)
     def registration():
         id = int(inpid.get())
         name = inpname.get()
@@ -19,6 +24,7 @@ def signUp(users):
             users.insert_user(id, username, name, lastname, email, mobile, password, balance, address, isadmin)
             msg = "SUCCESS"
             color = "GREEN"
+            productsTk(product, screen)
         else:
             print("all fields are required!!!")
             msg = "all fields are required!!!"
@@ -26,8 +32,7 @@ def signUp(users):
         err_field.configure(text = msg, fg = color)
         print(users.get_all_user())
 
-    window = Tk()
-    window.geometry("500x500")
+
 
     title = Label(window, text="REGESTRATION", font=("San Serif", 18))
     title.place(x=150, y= 10)
@@ -78,8 +83,10 @@ def signUp(users):
     err_field.place(x=180,y=410)
     window.mainloop()
 
-def logIn(users):
+def logIn(users, screen):
 
+    window = Frame(screen, width=1200, height=700)
+    window.place(x=0,y=0)
     def login():
         email = iemail.get()
         password = ipassword.get()
@@ -92,6 +99,7 @@ def logIn(users):
                     print(data)
                     msg = "SUCCESS"
                     color = "GREEN"
+                    productsTk(product, screen)
                 else:
                     msg = "Invalid password or email"
             else:
@@ -103,8 +111,7 @@ def logIn(users):
 
 
 
-    window = Tk()
-    window.geometry("500x500")
+
     lblTitle = Label(window, text="Авторизация", font=("San Serif", 16))
     lblTitle.place(x=175, y = 0)
 
@@ -126,5 +133,5 @@ def logIn(users):
 
     err_label = Label(window, text="", font=("San Serif", 12))
     err_label.place(x=180, y = 150 )
-    window.mainloop()
+    # window.mainloop()
 

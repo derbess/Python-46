@@ -1,4 +1,6 @@
 from tkinter import *
+from database_init import product, category, users
+
 
 def productsTk(product, screen):
 
@@ -66,6 +68,45 @@ def productsTk(product, screen):
 
     # window.mainloop()
 
+def categoryTk(category, screen):
+
+
+    def draw_categories(x,y, categoryTuple):
+
+        name = categoryTuple[1]
+        ci = categoryTuple[0]
+
+        def getProducts():
+            productofcategory = product.get_all_products_of_category(ci)
+            productsOfCategoryTk(productofcategory, screen)
+
+        lname = Label(window, text = name, font=("San Serif", 16))
+        lname.place(x=x+150, y=y+20)
+
+        btn = Button(window, text="products",font=("San Serif", 12), width=10, height=1, bg="GREEN", fg="WHITE", command=getProducts)
+        btn.place(x=x + 900, y=y+15)
+
+        line = Canvas(window, width=1000, height=2, bg="BLUE")
+        line.place(x=x, y = y+50)
+
+
+    categories = category.get_all_categories()
+    baseX = 50
+    baseY = 40
+
+    window = Frame(screen, width=1000, height=700)
+    window.place(x=0, y=0)
+    title = Label(window, text="Categories", font=("San Serif",18))
+    title.place(x=500, y=10)
+    thname = Label(window, text="Category",font=("San Serif",18), fg = "ORANGE")
+    thname.place(x = baseX + 100, y = baseY+20 )
+
+    baseY+=40
+    for categoryItem in categories:
+        draw_categories(baseX, baseY, categoryItem)
+        baseY += 60
+
+
 
 def profileTk(user):
     id = str(user[0])
@@ -126,3 +167,65 @@ def profileTk(user):
     inpid.place(x=180, y=330)
 
     window.mainloop()
+
+
+def productsOfCategoryTk(product, screen):
+
+    basket = [0]
+    def draw_products(x,y, productTuple):
+
+        def add():
+            basket.append(productTuple)
+            basket[0] += productTuple[2]
+            print(basket)
+            ltp2.configure(text=str(basket[0]))
+
+        name = productTuple[1]
+        price = productTuple[2]
+        cnt = productTuple[3]
+        category_id = productTuple[4]
+
+        lname = Label(window, text = name, font=("San Serif", 16))
+        lname.place(x=x+150, y=y+20)
+
+        lprice = Label(window, text=str(price),font=("San Serif", 16))
+        lprice.place(x=x+500, y = y+20)
+
+        lcnt = Label(window, text=str(cnt), font=("San Serif", 16))
+        lcnt.place(x=x + 700, y=y + 20)
+
+        btn = Button(window, text="add",font=("San Serif", 12), width=3, height=1, bg="GREEN", fg="WHITE", command=add)
+        btn.place(x=x + 900, y=y+15)
+
+        line = Canvas(window, width=1000, height=2, bg="BLUE")
+        line.place(x=x, y = y+50)
+
+
+    products = product
+    baseX = 50
+    baseY = 40
+
+    window = Frame(screen, width=1000, height=700)
+    window.place(x=0, y=0)
+    title = Label(window, text="PRODUCTS", font=("San Serif",18))
+    title.place(x=500, y=10)
+    thname = Label(window, text="Product name",font=("San Serif",18), fg = "ORANGE")
+    thname.place(x = baseX + 100, y = baseY+20 )
+
+    thprice = Label(window, text="price", font=("San Serif", 18), fg="ORANGE")
+    thprice.place(x=baseX + 500, y=baseY + 20)
+
+    thcnt = Label(window, text="quantity", font=("San Serif", 18), fg="ORANGE")
+    thcnt.place(x=baseX + 700, y=baseY + 20)
+
+
+    baseY+=40
+    for productItem in products:
+        draw_products(baseX, baseY, productItem)
+        baseY += 60
+
+    ltp = Label(window, text="Total Price: ",font=("San Serif",18))
+    ltp.place(x=baseX+ 750,y=baseY+20 )
+
+    ltp2 = Label(window, text="0",font=("San Serif",18))
+    ltp2.place(x=baseX+ 900,y=baseY+20 )

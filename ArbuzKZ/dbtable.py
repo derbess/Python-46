@@ -109,3 +109,8 @@ class Product():
         data = cursor.fetchall()
         return data
 
+    def get_all_products_of_category(self, id):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM product WHERE category_id = {id}")
+        data = cursor.fetchall()
+        return data

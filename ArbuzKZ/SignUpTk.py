@@ -1,7 +1,7 @@
 from tkinter import *
 from database_init import product, category, users
 import tkinter.font as tkFont
-from OtherTk import productsTk
+from OtherTk import productsTk, categoryTk
 
 def signUp(users, screen):
 

@@ -1,5 +1,6 @@
 from sqlite3 import *
 from dbtable import User, Category, Product
+
 def create_connection(path):
     connection = None
     try:

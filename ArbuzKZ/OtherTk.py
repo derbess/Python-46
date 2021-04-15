@@ -9,11 +9,16 @@ def productsTk(product, screen):
 
         def add():
             basket.append(productTuple)
+            cnt = productTuple[3]
+            id = productTuple[0]
+            cnt = cnt - 1
+            product.buy_product(id)
+
             basket[0] += productTuple[2]
             print(basket)
+
             ltp2.configure(text=str(basket[0]))
-
-
+            lcnt.configure(text=str(cnt))
 
 
         name = productTuple[1]
@@ -45,7 +50,7 @@ def productsTk(product, screen):
 
     window = Frame(screen, width=1200, height=700)
     window.place(x=0, y=0)
-    title = Label(window, text="PRODUCTS", font=("San Serif",18), fg = "#dddddd", bg = "RED")
+    title = Label(window, text="PRODUCTS", font=("San Serif",18), fg="#dddddd", bg = "RED")
     title.place(x=300, y=10)
 
     titleCategory = Label(window, text="CATEGORIES", font=("San Serif",18))
@@ -67,11 +72,11 @@ def productsTk(product, screen):
         draw_products(baseX, baseY, productItem)
         baseY += 60
 
-    ltp = Label(window, text="Total Price: ",font=("San Serif",18))
+    ltp = Label(window, text="Total Price: ", font=("San Serif",18))
     ltp.place(x=baseX+ 750,y=baseY+20 )
 
-    ltp2 = Label(window, text="0",font=("San Serif",18))
-    ltp2.place(x=baseX+ 900,y=baseY+20 )
+    ltp2 = Label(window, text="0", font=("San Serif", 18))
+    ltp2.place(x=baseX + 900, y=baseY+20 )
 
     # window.mainloop()
 

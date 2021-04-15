@@ -21,14 +21,27 @@ def signUp(users, screen):
         msg = ""
         color = ""
         if id and name and lastname and username and mobile and balance and email and password and address and isadmin:
-            users.insert_user(id, username, name, lastname, email, mobile, password, balance, address, isadmin)
-            msg = "SUCCESS"
-            color = "GREEN"
-            productsTk(product, screen)
+            if users.is_email_exist(email) == False:
+                print("email")
+                if users.is_username_exist(username) == False:
+                    print("username")
+                    if users.is_mobile_exist(mobile) == False:
+                        print("mobile")
+                        users.insert_user(id, username, name, lastname, email, mobile, password, balance, address, isadmin)
+                        msg = "SUCCESS"
+                        color = "GREEN"
+                        productsTk(product, screen)
+                    else:
+                        msg="mobile exist!"
+                else:
+                    msg="username exist!"
+            else:
+                msg = "email exist!"
+
         else:
             print("all fields are required!!!")
             msg = "all fields are required!!!"
-            color = "RED"
+        color = "RED"
         err_field.configure(text = msg, fg = color)
         print(users.get_all_user())
 
@@ -81,7 +94,6 @@ def signUp(users, screen):
     btnreg.place(x=220,y=370)
     err_field = Label(window, text="",font=("San Serif", 14))
     err_field.place(x=180,y=410)
-    window.mainloop()
 
 def logIn(users, screen):
 
@@ -113,25 +125,25 @@ def logIn(users, screen):
 
 
     lblTitle = Label(window, text="Авторизация", font=("San Serif", 16))
-    lblTitle.place(x=175, y = 0)
+    lblTitle.place(x=175+200, y = 0+50)
 
     lemail = Label(window, text="email: ", font=("San Serif", 12))
-    lemail.place(x=120, y = 30)
+    lemail.place(x=120+200, y = 50+50)
     iemail = Entry(window, font="30px")
-    iemail.place(x = 200, y = 30)
+    iemail.place(x = 200+200, y = 50+50)
 
     lpassword = Label(window, text="password: ", font=("San Serif", 12))
-    lpassword.place(x=110, y=65)
+    lpassword.place(x=110+200, y=80+50)
     ipassword = Entry(window,font="30px")
-    ipassword.place(x=200, y=65)
+    ipassword.place(x=200+200, y=80+50)
 
     btnLogin = Button(window, command = login, text="Login", font=("San Serif", 12), bg="#68c6fc", fg="WHITE")
-    btnLogin.place(x = 140, y=100)
+    btnLogin.place(x = 140+200, y=120+50)
 
     btnSignUp = Button(window, text="Sign Up", font=("San Serif", 12), bg="#52fa7f")
-    btnSignUp.place(x=270, y=100)
+    btnSignUp.place(x=270+200, y=120+50)
 
     err_label = Label(window, text="", font=("San Serif", 12))
-    err_label.place(x=180, y = 150 )
+    err_label.place(x=180+200, y = 180+50 )
     # window.mainloop()
 

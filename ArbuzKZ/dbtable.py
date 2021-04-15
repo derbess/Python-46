@@ -44,6 +44,32 @@ class User():
         data = cursor.fetchall()
         return data
 
+    def is_email_exist(self, email):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM user WHERE email = '{email}'")
+        data = cursor.fetchall()
+        if data:
+            return True
+        else:
+            return False
+    def is_username_exist(self, username):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM user WHERE username = '{username}'")
+        data = cursor.fetchall()
+        print(data)
+        if data:
+            return True
+        else:
+            return False
+    def is_mobile_exist(self, mobile):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM user WHERE mobile = '{mobile}'")
+        data = cursor.fetchall()
+        if data:
+            return True
+        else:
+            return False
+
 
 class Category():
     def __init__(self, connection):
@@ -120,3 +146,13 @@ class Product():
         cursor.execute(f"SELECT * FROM product WHERE category_id = {id}")
         data = cursor.fetchall()
         return data
+
+    def buy_product(self, id):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT cnt FROM product WHERE id ={id}")
+        data = cursor.fetchall()[0][0]
+        data = data - 1
+        cursor.execute(f"UPDATE product SET cnt = {data} WHERE id ={id} ")
+        self.connection.commit()
+
+

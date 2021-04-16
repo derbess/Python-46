@@ -2,11 +2,25 @@ from tkinter import *
 from database_init import product, category, users
 import tkinter.font as tkFont
 from OtherTk import productsTk, categoryTk
+from PIL import Image, ImageTk
+
 
 def signUp(users, screen):
 
-    window = Frame(screen, width=1200, height=1000)
-    window.place(x=0, y=0)
+    windowM = Frame(screen, width=1200, height=1000)
+    windowM.place(x=0, y=0)
+    header = Canvas(windowM, width=1200, height=100, bg="#a6fc6d")
+    header.place(x=0, y=0)
+
+    load = Image.open("logo.png")
+    load = load.resize((95, 95))
+    render = ImageTk.PhotoImage(load)
+    img = Label(windowM, image=render, bg="#a6fc6d")
+    img.image = render
+    img.place(x=0, y=2)
+
+    window = Frame(windowM, width=500, height=500)
+    window.place(x=300, y=120)
     def registration():
         id = int(inpid.get())
         name = inpname.get()
@@ -47,8 +61,8 @@ def signUp(users, screen):
 
 
 
-    title = Label(window, text="REGESTRATION", font=("San Serif", 18))
-    title.place(x=150, y= 10)
+    title = Label(windowM, text="REGESTRATION", font=("San Serif", 18),  bg="#a6fc6d")
+    title.place(x=500, y= 30)
     lblname = Label(window, text="name: ", font=("San Serif", 14))
     lblname.place(x=80, y=50)
     inpname = Entry(window, font=("San Serif", 14))
@@ -99,6 +113,16 @@ def logIn(users, screen):
 
     window = Frame(screen, width=1200, height=700)
     window.place(x=0,y=0)
+
+    header = Canvas(window, width=1200, height=100, bg="#a6fc6d")
+    header.place(x=0, y=0)
+
+    load = Image.open("logo.png")
+    load = load.resize((95, 95))
+    render = ImageTk.PhotoImage(load)
+    img = Label(window, image=render, bg="#a6fc6d")
+    img.image = render
+    img.place(x=0, y=2)
     def login():
         email = iemail.get()
         password = ipassword.get()
@@ -124,26 +148,26 @@ def logIn(users, screen):
 
 
 
-    lblTitle = Label(window, text="Авторизация", font=("San Serif", 16))
-    lblTitle.place(x=175+200, y = 0+50)
+    lblTitle = Label(window, text="Авторизация", font=("San Serif", 16),  bg="#a6fc6d")
+    lblTitle.place(x=175+200+100, y = 0+50)
 
     lemail = Label(window, text="email: ", font=("San Serif", 12))
-    lemail.place(x=120+200, y = 50+50)
+    lemail.place(x=120+200+100, y = 50+50+100)
     iemail = Entry(window, font="30px")
-    iemail.place(x = 200+200, y = 50+50)
+    iemail.place(x = 200+200+100, y = 50+50+100)
 
     lpassword = Label(window, text="password: ", font=("San Serif", 12))
-    lpassword.place(x=110+200, y=80+50)
+    lpassword.place(x=110+200+100, y=80+50+100)
     ipassword = Entry(window,font="30px")
-    ipassword.place(x=200+200, y=80+50)
+    ipassword.place(x=200+200+100, y=80+50+100)
 
     btnLogin = Button(window, command = login, text="Login", font=("San Serif", 12), bg="#68c6fc", fg="WHITE")
-    btnLogin.place(x = 140+200, y=120+50)
+    btnLogin.place(x = 140+200+100, y=120+50+100)
 
     btnSignUp = Button(window, text="Sign Up", font=("San Serif", 12), bg="#52fa7f")
-    btnSignUp.place(x=270+200, y=120+50)
+    btnSignUp.place(x=270+200+100, y=120+50+100)
 
     err_label = Label(window, text="", font=("San Serif", 12))
-    err_label.place(x=180+200, y = 180+50 )
+    err_label.place(x=180+200+100, y = 180+50+100 )
     # window.mainloop()
 

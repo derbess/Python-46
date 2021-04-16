@@ -1,8 +1,28 @@
 from tkinter import *
 from database_init import product, category, users
-
+from PIL import Image, ImageTk
+import json
 
 def productsTk(product, screen):
+
+    window = Frame(screen, width=1200, height=700)
+    window.place(x=0, y=0)
+    header = Canvas(window, width=1200, height=100, bg="#a6fc6d")
+    header.place(x=0, y=0)
+
+    load = Image.open("logo.png")
+    load = load.resize((95, 95))
+    render = ImageTk.PhotoImage(load)
+    img = Label(window, image=render, bg="#a6fc6d")
+    img.image = render
+    img.place(x=0, y=2)
+
+
+    products = product.get_all_products()
+    baseX = 50
+    baseY = 120
+
+    ltp2 = Label(window)
 
     basket = [0]
     def draw_products(x,y, productTuple):
@@ -13,12 +33,24 @@ def productsTk(product, screen):
             id = productTuple[0]
             cnt = cnt - 1
             product.buy_product(id)
+            update = product.get_all_products()
+
 
             basket[0] += productTuple[2]
             print(basket)
-
+            refresh(50, 120, update)
             ltp2.configure(text=str(basket[0]))
             lcnt.configure(text=str(cnt))
+
+
+            dict = {
+                "tp": basket[0],
+                "products": basket[1::]
+            }
+            data = json.dumps(dict)
+            f = open("storage.json", "w")
+
+            f.write(data)
 
 
         name = productTuple[1]
@@ -44,17 +76,26 @@ def productsTk(product, screen):
     def openCategories(event):
         categoryTk(category, screen)
 
-    products = product.get_all_products()
-    baseX = 50
-    baseY = 40
+    def refresh(baseX, baseY, productsLocal):
+        baseY += 40
+        for productItem in productsLocal:
+            print(productItem)
+            draw_products(baseX, baseY, productItem)
+            baseY += 60
 
-    window = Frame(screen, width=1200, height=700)
-    window.place(x=0, y=0)
-    title = Label(window, text="PRODUCTS", font=("San Serif",18), fg="#dddddd", bg = "RED")
-    title.place(x=300, y=10)
+        ltp = Label(window, text="Total Price: ", font=("San Serif", 18))
+        ltp.place(x=baseX + 750, y=baseY + 20)
 
-    titleCategory = Label(window, text="CATEGORIES", font=("San Serif",18))
-    titleCategory.place(x=700, y=10)
+        ltp2 = Label(window, text=str(basket[0]), font=("San Serif", 18))
+        ltp2.place(x=baseX + 900, y=baseY + 20)
+
+    refresh(baseX, baseY, products)
+
+    title = Label(window, text="PRODUCTS", font=("San Serif",18,'underline'), fg="#000000",bg="#a6fc6d")
+    title.place(x=350, y=40)
+
+    titleCategory = Label(window, text="CATEGORIES", font=("San Serif",18), bg="#a6fc6d" )
+    titleCategory.place(x=700, y=40)
     titleCategory.bind("<Button-1>", openCategories)
 
     thname = Label(window, text="Product name",font=("San Serif",18), fg = "ORANGE")
@@ -67,21 +108,21 @@ def productsTk(product, screen):
     thcnt.place(x=baseX + 700, y=baseY + 20)
 
 
-    baseY+=40
-    for productItem in products:
-        draw_products(baseX, baseY, productItem)
-        baseY += 60
-
-    ltp = Label(window, text="Total Price: ", font=("San Serif",18))
-    ltp.place(x=baseX+ 750,y=baseY+20 )
-
-    ltp2 = Label(window, text="0", font=("San Serif", 18))
-    ltp2.place(x=baseX + 900, y=baseY+20 )
 
     # window.mainloop()
 
 def categoryTk(category, screen):
+    window = Frame(screen, width=1200, height=700)
+    window.place(x=0, y=0)
+    header = Canvas(window, width=1200, height=100, bg="#a6fc6d")
+    header.place(x=0, y=0)
 
+    load = Image.open("logo.png")
+    load = load.resize((95, 95))
+    render = ImageTk.PhotoImage(load)
+    img = Label(window, image=render, bg="#a6fc6d")
+    img.image = render
+    img.place(x=0, y=2)
 
     def draw_categories(x,y, categoryTuple):
 
@@ -106,17 +147,15 @@ def categoryTk(category, screen):
 
     categories = category.get_all_categories()
     baseX = 50
-    baseY = 40
+    baseY = 120
 
-    window = Frame(screen, width=1200, height=700)
-    window.place(x=0, y=0)
 
-    titleProducts = Label(window, text="PRODUCTS", font=("San Serif",18))
-    titleProducts.place(x=300, y=10)
+    titleProducts = Label(window, text="PRODUCTS", font=("San Serif",18), bg="#a6fc6d")
+    titleProducts.place(x=350, y=40)
     titleProducts.bind("<Button-1>", openProducts)
 
-    title = Label(window, text="CATEGORIES", font=("San Serif",18), fg = "#dddddd", bg = "RED")
-    title.place(x=700, y=10)
+    title = Label(window, text="CATEGORIES", font=("San Serif",18,"underline"), fg = "#000000",bg="#a6fc6d")
+    title.place(x=700, y=40)
     thname = Label(window, text="Category",font=("San Serif",18), fg = "ORANGE")
     thname.place(x = baseX + 100, y = baseY+20 )
 
@@ -189,7 +228,17 @@ def profileTk(user):
 
 
 def productsOfCategoryTk(product, screen):
+    window = Frame(screen, width=1200, height=700)
+    window.place(x=0, y=0)
+    header = Canvas(window, width=1200, height=100, bg="#a6fc6d")
+    header.place(x=0, y=0)
 
+    load = Image.open("logo.png")
+    load = load.resize((95, 95))
+    render = ImageTk.PhotoImage(load)
+    img = Label(window, image=render, bg="#a6fc6d")
+    img.image = render
+    img.place(x=0, y=2)
     basket = [0]
     def draw_products(x,y, productTuple):
 
@@ -225,18 +274,16 @@ def productsOfCategoryTk(product, screen):
     products = product
     category_id = products[0][4]
     baseX = 50
-    baseY = 40
+    baseY = 120
     currentCategory = category.get_category_by_id(category_id)
     category_name = currentCategory[0][1]
-    window = Frame(screen, width=1200, height=700)
-    window.place(x=0, y=0)
 
 
-    title = Label(window, text=f"PRODUCTS of {category_name}", font=("San Serif",18), fg = "#dddddd", bg = "RED")
-    title.place(x=300, y=10)
+    title = Label(window, text=f"PRODUCTS of {category_name}", font=("San Serif",18, "underline"), bg="#a6fc6d")
+    title.place(x=350, y=40)
 
-    titleCategory = Label(window, text="CATEGORIES", font=("San Serif", 18))
-    titleCategory.place(x=700, y=10)
+    titleCategory = Label(window, text="CATEGORIES", font=("San Serif", 18), bg="#a6fc6d")
+    titleCategory.place(x=700, y=40)
     titleCategory.bind("<Button-1>", openCategories)
 
 

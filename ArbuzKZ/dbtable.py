@@ -120,7 +120,7 @@ class Product():
             id PRIMARY KEY,
             name varchar(40),
             price int,
-            cnt int,
+            cnt int CHECK(cnt > 0),
             category_id int,
             FOREIGN KEY (category_id) REFERENCES category(id)
           )   
@@ -154,5 +154,11 @@ class Product():
         data = data - 1
         cursor.execute(f"UPDATE product SET cnt = {data} WHERE id ={id} ")
         self.connection.commit()
+
+    def get_product_by_id(self, id):
+        cursor = self.connection.cursor()
+        cursor.execute(f"SELECT id, name, price FROM product WHERE id ={id}")
+        data = cursor.fetchall()[0]
+        return data
 
 

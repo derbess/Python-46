@@ -28,7 +28,6 @@ def productsTk(product, screen):
     def draw_products(x,y, productTuple):
 
         def add():
-            basket.append(productTuple)
             cnt = productTuple[3]
             id = productTuple[0]
             cnt = cnt - 1
@@ -41,6 +40,10 @@ def productsTk(product, screen):
             refresh(50, 120, update)
             ltp2.configure(text=str(basket[0]))
             lcnt.configure(text=str(cnt))
+            productData = list(productTuple)
+            del productData[3]
+            print(productData)
+            basket.append(productData)
 
 
             dict = {
@@ -76,6 +79,9 @@ def productsTk(product, screen):
     def openCategories(event):
         categoryTk(category, screen)
 
+    def openBasket(event):
+        basketTk(product, screen)
+
     def refresh(baseX, baseY, productsLocal):
         baseY += 40
         for productItem in productsLocal:
@@ -92,11 +98,15 @@ def productsTk(product, screen):
     refresh(baseX, baseY, products)
 
     title = Label(window, text="PRODUCTS", font=("San Serif",18,'underline'), fg="#000000",bg="#a6fc6d")
-    title.place(x=350, y=40)
+    title.place(x=300, y=40)
 
     titleCategory = Label(window, text="CATEGORIES", font=("San Serif",18), bg="#a6fc6d" )
-    titleCategory.place(x=700, y=40)
+    titleCategory.place(x=550, y=40)
     titleCategory.bind("<Button-1>", openCategories)
+
+    titleBasket = Label(window, text="BASKET", font=("San Serif", 18), bg="#a6fc6d")
+    titleBasket.place(x=800, y=40)
+    titleBasket.bind("<Button-1>", openBasket)
 
     thname = Label(window, text="Product name",font=("San Serif",18), fg = "ORANGE")
     thname.place(x = baseX + 100, y = baseY+20 )
@@ -145,17 +155,25 @@ def categoryTk(category, screen):
     def openProducts(event):
         productsTk(product, screen)
 
+    def openBasket(event):
+        basketTk(product, screen)
+
     categories = category.get_all_categories()
     baseX = 50
     baseY = 120
 
 
     titleProducts = Label(window, text="PRODUCTS", font=("San Serif",18), bg="#a6fc6d")
-    titleProducts.place(x=350, y=40)
+    titleProducts.place(x=300, y=40)
     titleProducts.bind("<Button-1>", openProducts)
 
     title = Label(window, text="CATEGORIES", font=("San Serif",18,"underline"), fg = "#000000",bg="#a6fc6d")
-    title.place(x=700, y=40)
+    title.place(x=550, y=40)
+
+    titleBasket = Label(window, text="BASKET", font=("San Serif", 18), bg="#a6fc6d")
+    titleBasket.place(x=800, y=40)
+    titleBasket.bind("<Button-1>", openBasket)
+
     thname = Label(window, text="Category",font=("San Serif",18), fg = "ORANGE")
     thname.place(x = baseX + 100, y = baseY+20 )
 
@@ -163,8 +181,6 @@ def categoryTk(category, screen):
     for categoryItem in categories:
         draw_categories(baseX, baseY, categoryItem)
         baseY += 60
-
-
 
 def profileTk(user):
     id = str(user[0])
@@ -225,7 +241,6 @@ def profileTk(user):
     inpid.place(x=180, y=330)
 
     window.mainloop()
-
 
 def productsOfCategoryTk(product, screen):
     window = Frame(screen, width=1200, height=700)
@@ -307,3 +322,104 @@ def productsOfCategoryTk(product, screen):
 
     ltp2 = Label(window, text="0",font=("San Serif",18))
     ltp2.place(x=baseX+ 900,y=baseY+20 )
+
+def basketTk(product, screen):
+
+    window = Frame(screen, width=1200, height=700)
+    window.place(x=0, y=0)
+    header = Canvas(window, width=1200, height=100, bg="#a6fc6d")
+    header.place(x=0, y=0)
+
+    load = Image.open("logo.png")
+    load = load.resize((95, 95))
+    render = ImageTk.PhotoImage(load)
+    img = Label(window, image=render, bg="#a6fc6d")
+    img.image = render
+    img.place(x=0, y=2)
+
+    f = open("storage.json", "r")
+    row = f.read()
+    data = json.loads(row)
+    productsDict = {}
+    for i in data["products"]:
+        listkeys = list(productsDict.keys())
+        if listkeys.count(i[0]):
+            productsDict[i[0]] += 1
+        else:
+            productsDict[i[0]] = 1
+    # print(products)
+
+
+    tp = data["tp"]
+    baseX = 50
+    baseY = 120
+
+    ltp2 = Label(window)
+
+    basket = [0]
+    def draw_products(x,y, productTuple):
+
+        name = productTuple[1]
+        price = productTuple[2]
+        cnt = productTuple[3]
+
+        lname = Label(window, text = name, font=("San Serif", 16))
+        lname.place(x=x+150, y=y+20)
+
+        lprice = Label(window, text=str(price),font=("San Serif", 16))
+        lprice.place(x=x+500, y = y+20)
+
+        lcnt = Label(window, text=str(cnt), font=("San Serif", 16))
+        lcnt.place(x=x + 700, y=y + 20)
+
+
+        line = Canvas(window, width=1000, height=2, bg="BLUE")
+        line.place(x=x, y = y+50)
+
+    def openProducts(event):
+        productsTk(product, screen)
+
+    def openCategories(event):
+        categoryTk(category, screen)
+
+    def refresh(baseX, baseY, productsLocal):
+        baseY += 40
+        for productItem in productsLocal:
+
+            data1 = list(product.get_product_by_id(productItem))
+            data1.append(productsLocal[productItem])
+
+            draw_products(baseX, baseY, data1)
+            baseY += 60
+
+        ltp = Label(window, text="Total Price: ", font=("San Serif", 18))
+        ltp.place(x=baseX + 750, y=baseY + 20)
+
+        ltp2 = Label(window, text=str(tp), font=("San Serif", 18))
+        ltp2.place(x=baseX + 900, y=baseY + 20)
+
+    refresh(baseX, baseY, productsDict)
+
+    title = Label(window, text="PRODUCTS", font=("San Serif",18),bg="#a6fc6d")
+    title.place(x=300, y=40)
+    title.bind("<Button-1>", openProducts)
+
+    titleCategory = Label(window, text="CATEGORIES", font=("San Serif",18), bg="#a6fc6d" )
+    titleCategory.place(x=550, y=40)
+    titleCategory.bind("<Button-1>", openCategories)
+
+    titleBasket = Label(window, text = "BASKET", font=("San Serif",18,'underline'), bg="#a6fc6d")
+    titleBasket.place(x=800, y=40)
+
+    thname = Label(window, text="Product name",font=("San Serif",18), fg = "ORANGE")
+    thname.place(x = baseX + 100, y = baseY+20 )
+
+    thprice = Label(window, text="price", font=("San Serif", 18), fg="ORANGE")
+    thprice.place(x=baseX + 500, y=baseY + 20)
+
+    thcnt = Label(window, text="quantity", font=("San Serif", 18), fg="ORANGE")
+    thcnt.place(x=baseX + 700, y=baseY + 20)
+
+
+
+    # window.mainloop()

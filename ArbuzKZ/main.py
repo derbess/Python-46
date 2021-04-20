@@ -2,7 +2,7 @@ from database_init import *
 from dbtable import *
 from SignUpTk import signUp, logIn
 from tkinter import *
-from OtherTk import productsTk,profileTk
+from OtherTk import productsTk, profileTk
 from PIL import Image, ImageTk
 
 window = Tk()
@@ -42,4 +42,6 @@ btnReg.place(x=650, y=450)
 
 window.mainloop()
 # cursor = connection.cursor()
-# cursor.execute(f"DELETE FROM product WHERE id == {1}")
+# cursor.execute(f"UPDATE product SET cnt = {100} WHERE cnt < {0}")
+# connection.commit()
+
